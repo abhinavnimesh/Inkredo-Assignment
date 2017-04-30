@@ -1,16 +1,23 @@
 package com.animator_abhi.inkredoassignment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EmiActivity extends AppCompatActivity {
     Button emiCalcBtn;
+    TableLayout t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +27,24 @@ public class EmiActivity extends AppCompatActivity {
         final EditText P = (EditText)findViewById(R.id.principal);
 
         final EditText Y = (EditText)findViewById(R.id.tenure);
-      
-        final TextView TAMOUNT= (TextView) findViewById(R.id.tI);
+
+      //  final TextView TAMOUNT= (TextView) findViewById(R.id.tI);
+       /* final TextView tvpricipal= (TextView) findViewById(R.id.p_Amount);
+        final TextView tvmonth= (TextView) findViewById(R.id.month);
+        TextView tvemi= (TextView) findViewById(R.id.emi);
+        TextView tvtotal= (TextView) findViewById(R.id.tAmount);*/
+        t1= (TableLayout) findViewById(R.id.tableLayout1);
+     final    SQLiteDatabase db=openOrCreateDatabase("Demofile", MODE_APPEND, null);
+
+        db.execSQL("create table if not exists Inkredo( principal Real , month Real , emi real , total real ) ");
+      //  SharedPreferences sp=getSharedPreferences("SHARED", 0);
+        //String msg=sp.getString("STAT", "NOT INITIALISED");
 
 
 
 
-        final TextView result = (TextView) findViewById(R.id.emi) ;
+
+      //  final TextView result = (TextView) findViewById(R.id.emi) ;
 
 
         emiCalcBtn = (Button) findViewById(R.id.btn_calculate);
@@ -34,6 +52,8 @@ public class EmiActivity extends AppCompatActivity {
         emiCalcBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                db.execSQL("delete from Inkredo");
 
                 String st1 = P.getText().toString();
                 String st2 ="36";
@@ -49,27 +69,57 @@ public class EmiActivity extends AppCompatActivity {
                 float Rate = calInt(i);
 
                 float Months = Float.parseFloat(st3);
+                int  lp = (int) (Months-3);
+                if(lp<=0){lp=1;}
+                else
+                    lp=(int) (Months-3);
 
-                float Dvdnt = calDvdnt( Rate, Months);
+                for(int loop=lp; loop<=Months+3; loop++) {
 
-                float FD = calFinalDvdnt (Principal, Rate, Dvdnt);
+                    float Dvdnt = calDvdnt(Rate, (float)loop);
 
-                float D = calDivider(Dvdnt);
+                    float FD = calFinalDvdnt(Principal, Rate, Dvdnt);
 
-                float emi = calEmi(FD, D);
+                    float D = calDivider(Dvdnt);
 
-                float TA = calTa (emi, Months);
+                    float emi = calEmi(FD, D);
 
-                float ti = calTotalInt(TA, Principal);
+                    float TA = calTa(emi, (float) loop);
+
+                    float ti = calTotalInt(TA, Principal);
+                    db.execSQL("insert into Inkredo(principal,month,emi,total)values('"+Principal+"','"+loop+"','"+emi+"','"+TA+"')");
+
+                }
+
+                TableRow tr;
+                String q = "select*from Inkredo";
+                Cursor c = db.rawQuery(q, null);
+                String principal,month,emi,total;
+                while (c.moveToNext()) {
+                    principal = c.getString(0);
+                    month = c.getString(1);
+                    emi = c.getString(2);
+                    total = c.getString(3);
+
+                    tr = new TableRow(EmiActivity.this);
+                    TextView tv1 = new TextView(EmiActivity.this);
+                    tv1.setText(principal);
+                    TextView tv2 = new TextView(EmiActivity.this);
+                    tv2.setText(month);
+                    TextView tv3 = new TextView(EmiActivity.this);
+                    tv3.setText(emi);
+                    TextView tv4 = new TextView(EmiActivity.this);
+                    tv4.setText(total);
+                    tr.addView(tv1);
+                    tr.addView(tv2);
+                    tr.addView(tv3);
+                    tr.addView(tv4);
+                    t1.addView(tr);
+                }
+
+                Toast.makeText(EmiActivity.this, "data loaded", Toast.LENGTH_SHORT).show();
 
 
-
-                result.setText(String.valueOf(emi));
-
-
-
-
-                TAMOUNT.setText(String.valueOf(TA));
 
             }
         });
@@ -124,4 +174,16 @@ public class EmiActivity extends AppCompatActivity {
         return (float) (TA - Principal);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        final    SQLiteDatabase db=openOrCreateDatabase("Demofile", MODE_APPEND, null);
+
+        db.execSQL("drop table Inkredo");
+        db.close();
+
+    }
+
+
 }

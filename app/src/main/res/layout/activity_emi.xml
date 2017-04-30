@@ -45,16 +45,58 @@
         android:text="Calculate"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/tI"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Interest:"
-        android:textSize="36dp" />
-    <TextView
-        android:id="@+id/emi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="EMI:"
-        android:textSize="36dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:context="com.abhi.abhi.DatabaseActivity"
+            android:layout_column="4"
+            android:id="@+id/tableLayout1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/p_Amount"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Principal "
+                    android:textSize="16dp"
+                    android:layout_column="0"/>
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tenure"
+                    android:textSize="16dp"
+                    android:layout_column="1"/>
+
+                <TextView
+                    android:id="@+id/emi"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:text="EMI "
+                    android:textSize="16dp"
+                    android:layout_column="2"/>
+                <TextView
+                    android:id="@+id/tAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Amount"
+                    android:textSize="16dp"
+                    android:layout_column="3"/>
+
+            </TableRow>
+        </TableLayout>
+
+
+    </LinearLayout>
+
 </LinearLayout>
