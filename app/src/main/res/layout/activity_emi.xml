@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.animator_abhi.inkredoassignment.EmiActivity">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="135dp">
+
+        <EditText
+            android:id="@+id/principal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Principal amount (p)"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="135dp">
+
+        <EditText
+            android:id="@+id/tenure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Tenure of Loan in month(t)"
+            android:inputType="textEmailAddress" />
+
+
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/btn_calculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/tI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Interest:"
+        android:textSize="36dp" />
+    <TextView
+        android:id="@+id/emi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EMI:"
+        android:textSize="36dp" />
+</LinearLayout>
