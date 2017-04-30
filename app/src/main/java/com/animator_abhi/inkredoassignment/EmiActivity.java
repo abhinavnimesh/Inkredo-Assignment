@@ -59,6 +59,16 @@ public class EmiActivity extends AppCompatActivity {
                 String st2 ="36";
                 String st3 = Y.getText().toString();
 
+                if (TextUtils.isEmpty(st1)) {
+                    P.setError("Enter Prncipal Amount");
+                    P.requestFocus();
+                    return;
+                }
+                if (TextUtils.isEmpty(st3)) {
+                    P.setError("Enter tenure (months)");
+                    P.requestFocus();
+                    return;
+                }
 
                 float p = Float.parseFloat(st1);
                 float i = Float.parseFloat(st2);
